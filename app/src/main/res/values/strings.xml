@@ -1,4 +1,12 @@
 <resources>
-    <string name="app_name">FinalProject</string>
+    <string name="app_name">Smart書店</string>
     <string name="action_settings">Settings</string>
+    <string name="next">next</string>
+    <string name="title_activity_nav">登入會員</string>
+    
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="drawer_open">Open</string>
+    <string name="drawer_close">Close</string>
+    <string name="title_activity_register">註冊會員</string>
+    <string name="title_activity_about">關於程式</string>
 </resources>
