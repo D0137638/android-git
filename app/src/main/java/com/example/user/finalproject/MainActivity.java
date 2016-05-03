@@ -45,7 +45,7 @@ public class MainActivity extends AppCompatActivity {
         imageButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View arg0) {
                 Intent intent = new Intent();
-                intent.setClass(MainActivity.this, MainActivity.class);
+                intent.setClass(MainActivity.this, RecommendActivity.class);
                 MainActivity.this.startActivity(intent);
             }
         });
@@ -55,7 +55,7 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View arg0) {
 
                 Intent intent = new Intent();
-                intent.setClass(MainActivity.this, MainActivity.class);
+                intent.setClass(MainActivity.this, SearchActivity.class);
                 MainActivity.this.startActivity(intent);
             }
         });
@@ -65,7 +65,7 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View arg0) {
 
                 Intent intent = new Intent();
-                intent.setClass(MainActivity.this, MainActivity.class);
+                intent.setClass(MainActivity.this, FavoriteActivity.class);
                 MainActivity.this.startActivity(intent);
             }
         });
@@ -75,7 +75,7 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View arg0) {
 
                 Intent intent = new Intent();
-                intent.setClass(MainActivity.this, MainActivity.class);
+                intent.setClass(MainActivity.this, ShopcartActivity.class);
                 MainActivity.this.startActivity(intent);
             }
         });
