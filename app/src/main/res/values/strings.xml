@@ -9,4 +9,5 @@
     <string name="drawer_close">Close</string>
     <string name="title_activity_register">註冊會員</string>
     <string name="title_activity_about">關於程式</string>
+    <string name="title_activity_recommend">RecommendActivity</string>
 </resources>
