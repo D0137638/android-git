@@ -15,7 +15,9 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 
@@ -23,7 +25,8 @@ import android.widget.TextView;
 public class MainActivity extends AppCompatActivity {
 
     private ImageButton imageButton, imageButton2, imageButton3,imageButton4;
-
+    ImageButton btnLogout;
+    Session session;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,6 +34,8 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.app_bar);
         setSupportActionBar(toolbar);
+
+        session = new Session(this);
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
@@ -79,6 +84,26 @@ public class MainActivity extends AppCompatActivity {
                 MainActivity.this.startActivity(intent);
             }
         });
+
+        btnLogout = (ImageButton)findViewById(R.id.btn_Logout);
+        btnLogout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                logout();
+            }
+        });
+
+
+        if(session.logged() == true){
+            btnLogout.setVisibility(View.VISIBLE);  //登出鍵顯示
+        }
     }
 
+    private void logout() {
+        session.setLogged(false);
+        btnLogout.setVisibility(View.INVISIBLE);
+        finish();
+        startActivity(new Intent(MainActivity.this, LoginActivity.class));
+
+    }
 }

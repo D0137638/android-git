@@ -1,5 +1,6 @@
 package com.example.user.finalproject;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -8,8 +9,18 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.TextView;
+import android.widget.Toast;
 
-public class RegisterActivity extends AppCompatActivity {
+public class RegisterActivity extends AppCompatActivity implements View.OnClickListener{
+
+    Button reg;
+    TextView tvLogin;
+    EditText edID,  edPass;
+
+    DbHelper db;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -21,6 +32,16 @@ public class RegisterActivity extends AppCompatActivity {
 
         getSupportActionBar().setHomeButtonEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+        db = new DbHelper(this);
+
+        reg = (Button)findViewById(R.id.btn_Register);
+        tvLogin = (TextView)findViewById(R.id.tvLogin);
+        edID = (EditText)findViewById(R.id.ed_userid);
+        edPass = (EditText)findViewById(R.id.ed_password);
+
+        reg.setOnClickListener(this);
+        tvLogin.setOnClickListener(this);
     }
 
 
@@ -38,5 +59,35 @@ public class RegisterActivity extends AppCompatActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()){
+            case R.id.btn_Register:
+                register();
+                break;
+
+            case R.id.tvLogin:
+                startActivity(new Intent(RegisterActivity.this, LoginActivity.class));
+                finish();
+                break;
+
+            default:
+        }
+    }
+
+    private void register(){
+        String userid = edID.getText().toString();
+        String password = edPass.getText().toString();
+
+        if(userid.isEmpty() && password.isEmpty()){
+            Toast.makeText(getApplicationContext(), "Userid / password is empty", Toast.LENGTH_SHORT).show();
+        }
+        else{
+            db.addUser(userid, password);
+            Toast.makeText(getApplicationContext() , "User registered" , Toast.LENGTH_SHORT).show();
+            finish();
+        }
     }
 }

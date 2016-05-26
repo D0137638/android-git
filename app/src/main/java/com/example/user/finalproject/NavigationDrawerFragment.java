@@ -69,16 +69,20 @@ public class NavigationDrawerFragment extends Fragment {
 
     public static List<Information> getData()
     {
+
         List<Information> data = new ArrayList<>();
         int[] icons = {R.drawable.ic_person_add_black_24dp, R.drawable.ic_person_black_24dp,R.drawable.ic_insert_emoticon_black_24dp};
         String[] titles = {"註冊會員" , "登入" , "關於"};
-        for(int i = 0; i < titles.length && i < icons.length; i++)
-        {
-            Information current = new Information();
-            current.iconId = icons[i];
-            current.title = titles[i];
-            data.add(current);
+
+
+       for (int i = 0; i < titles.length && i < icons.length; i++) {
+                Information current = new Information();
+                current.iconId = icons[i];
+                current.title = titles[i];
+                data.add(current);
         }
+
+
         return data;
     }
 
@@ -106,10 +110,10 @@ public class NavigationDrawerFragment extends Fragment {
             }
         };
 
-        if(!mUserLearnedDrawer && !mFomSayedInstanceState)
+        /*if(!mUserLearnedDrawer && !mFomSayedInstanceState)
         {
             mDrawerLayout.openDrawer(containerView);
-        }
+        }*/
 
         mDrawerLayout.setDrawerListener(mDrawerToggle);
 

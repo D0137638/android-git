@@ -1,13 +1,25 @@
 package com.example.user.finalproject;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.NavUtils;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.TextView;
+import android.widget.Toast;
 
 
-public class LoginActivity extends AppCompatActivity {
+public class LoginActivity extends AppCompatActivity implements View.OnClickListener{
+
+    Button login, register;
+    EditText edID, edPass;
+
+    DbHelper db;
+    Session session;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -18,6 +30,22 @@ public class LoginActivity extends AppCompatActivity {
 
         getSupportActionBar().setHomeButtonEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+        db = new DbHelper(this);
+        session = new Session(this);
+
+        login = (Button)findViewById(R.id.btn_Login);
+        register = (Button)findViewById(R.id.btn_Register);
+        edID = (EditText)findViewById(R.id.ed_userid);
+        edPass = (EditText)findViewById(R.id.ed_password);
+
+        login.setOnClickListener(this);
+        register.setOnClickListener(this);
+
+/*        if(session.logged()){
+            startActivity(new Intent(LoginActivity.this, MainActivity.class));
+            finish();
+        }*/
     }
 
 
@@ -35,5 +63,35 @@ public class LoginActivity extends AppCompatActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()){
+
+            case R.id.btn_Login:
+                login();
+                break;
+
+            case R.id.btn_Register:
+                startActivity(new Intent(LoginActivity.this, RegisterActivity.class));
+                break;
+
+        }
+    }
+
+
+    private void login(){
+        String userid = edID.getText().toString();
+        String password = edPass.getText().toString();
+
+        if(db.getUser(userid , password)){
+            startActivity(new Intent(LoginActivity.this, MainActivity.class));
+            session.setLogged(true);
+            finish();
+        }
+        else {
+            Toast.makeText(getApplicationContext(), "Wrong userid / password ", Toast.LENGTH_SHORT).show();
+        }
     }
 }
