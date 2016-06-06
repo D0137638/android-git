@@ -18,7 +18,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     Button login, register;
     EditText edID, edPass;
 
-    DbHelper db;
+    DbHelper myDb;
     Session session;
 
     @Override
@@ -31,7 +31,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         getSupportActionBar().setHomeButtonEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        db = new DbHelper(this);
+        myDb = new DbHelper(this);
         session = new Session(this);
 
         login = (Button)findViewById(R.id.btn_Login);
@@ -85,7 +85,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         String userid = edID.getText().toString();
         String password = edPass.getText().toString();
 
-        if(db.getUser(userid , password)){
+        if(myDb.getUser(userid , password)){
             startActivity(new Intent(LoginActivity.this, MainActivity.class));
             session.setLogged(true);
             finish();
