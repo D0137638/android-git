@@ -1,6 +1,8 @@
 package com.example.user.finalproject;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -60,8 +62,23 @@ public class adapter extends RecyclerView.Adapter <adapter.MyViewHolder> {
                         break;
 
                     case 2:
-                        Intent about = new Intent(view.getContext(), AboutActivity.class);
-                        view.getContext().startActivity(about);
+                        /*Intent about = new Intent(view.getContext(), AboutActivity.class);
+                        view.getContext().startActivity(about);*/
+                        AlertDialog.Builder about_msg = new AlertDialog.Builder(view.getContext());
+                        about_msg.setTitle("關於程式");
+                        about_msg.setMessage("作者:\n\n翁大原、潘詠霖、張硯傑");
+
+
+
+                        DialogInterface.OnClickListener listener = new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                //finish();
+                                //startActivity(new Intent(FavoriteActivity.this, FavoriteActivity.class));
+                            }
+                        };
+                        about_msg.setNegativeButton("確定", listener);
+                        about_msg.show();
                         break;
                 }
             }

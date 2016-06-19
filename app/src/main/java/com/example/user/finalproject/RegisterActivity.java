@@ -1,6 +1,7 @@
 package com.example.user.finalproject;
 
 import android.content.Intent;
+import android.database.Cursor;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -82,11 +83,21 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
         String password = edPass.getText().toString();
 
         if(userid.isEmpty() && password.isEmpty()){
-            Toast.makeText(getApplicationContext(), "Userid / password is empty", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getApplicationContext(), "帳號或密碼未輸入 !", Toast.LENGTH_SHORT).show();
         }
         else{
-            db.addUser(userid, password);
-            Toast.makeText(getApplicationContext() , "User registered" , Toast.LENGTH_SHORT).show();
+            Cursor c = db.searchUser(userid);
+            if (c.getCount() == 0) {
+                db.addUser(userid, password);
+                Toast.makeText(getApplicationContext() , "註冊完畢 !" , Toast.LENGTH_SHORT).show();
+            }
+            else
+            {
+                finish();
+                startActivity(new Intent(RegisterActivity.this, RegisterActivity.class));
+                Toast.makeText(getApplicationContext() , "此帳號已被註冊 !" , Toast.LENGTH_SHORT).show();
+            }
+
             finish();
         }
     }

@@ -80,10 +80,27 @@
             android:name=".BookContent"
             android:label="@string/title_activity_book_content"
             android:theme="@style/AppTheme.NoActionBar" >
+
             <!-- 返回首頁 -->
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".RecommendActivity" />
+        </activity>
+        <activity
+            android:name=".FavoriteContent"
+            android:label="@string/title_activity_favorite_content"
+            android:theme="@style/AppTheme.NoActionBar" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".FavoriteActivity" />
+        </activity>
+        <activity
+            android:name=".ShopcartContent"
+            android:label="@string/title_activity_shopcart_content"
+            android:theme="@style/AppTheme.NoActionBar" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".ShopcartActivity" />
         </activity>
     </application>
 

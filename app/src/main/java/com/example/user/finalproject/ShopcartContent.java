@@ -15,7 +15,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-public class BookContent extends AppCompatActivity {
+public class ShopcartContent extends AppCompatActivity {
 
     DbHelper myDb;
     TextView tv_BookName , tv_BookPrice;
@@ -25,9 +25,10 @@ public class BookContent extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_book_content);
+        setContentView(R.layout.activity_shopcart_content);
         Toolbar toolbar = (Toolbar) findViewById(R.id.app_bar);
         setSupportActionBar(toolbar);
+
         getSupportActionBar().setHomeButtonEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
@@ -39,11 +40,10 @@ public class BookContent extends AppCompatActivity {
         btn_AddToCart = (Button)findViewById(R.id.btn_AddToCart);
         btn_Buy = (Button)findViewById(R.id.btn_Buy);
 
-
         Intent intent = getIntent();
         final long pos = intent.getExtras().getLong("ID");
 
-        Cursor c= myDb.getBook(pos);
+        Cursor c= myDb.getShopcart(pos);
         final int id = c.getInt(0);
         final String bookname = c.getString(1);
         int bookprice = c.getInt(2);
@@ -58,18 +58,17 @@ public class BookContent extends AppCompatActivity {
             public void onClick(View view) {
                 Cursor cursor = myDb.getBook(Long.valueOf(id));
                 Cursor c = myDb.searchFavorite(bookname);
-                if (c.getCount() == 0)
-                {
+                if( c.getCount() == 0 ) {
                     myDb.addFavorite(cursor.getString(1), cursor.getInt(2), cursor.getInt(3));
                 }
                 else
                 {
-                    Toast.makeText(BookContent.this, "此商品已加入最愛", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(ShopcartContent.this, "此商品已加入最愛", Toast.LENGTH_SHORT).show();
                     finish();
-                    startActivity(new Intent(BookContent.this, BookContent.class));
+                    startActivity(new Intent(ShopcartContent.this, BookContent.class));
                 }
                 finish();
-                startActivity(new Intent(BookContent.this, FavoriteActivity.class));
+                startActivity(new Intent(ShopcartContent.this, FavoriteActivity.class));
             }
         });
 
@@ -79,7 +78,7 @@ public class BookContent extends AppCompatActivity {
                 Cursor cursor = myDb.getBook(Long.valueOf(id));
                 myDb.addShopcart(cursor.getString(1), cursor.getInt(2), cursor.getInt(3));
                 finish();
-                startActivity(new Intent(BookContent.this, ShopcartActivity.class));
+                startActivity(new Intent(ShopcartContent.this, ShopcartActivity.class));
             }
         });
 
@@ -88,7 +87,7 @@ public class BookContent extends AppCompatActivity {
         btn_Buy.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(BookContent.this,"購買完成 !",Toast.LENGTH_SHORT).show();
+                Toast.makeText(ShopcartContent.this,"購買完成 !",Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -108,4 +107,5 @@ public class BookContent extends AppCompatActivity {
 
         return super.onOptionsItemSelected(item);
     }
+
 }

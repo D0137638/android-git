@@ -89,9 +89,10 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             startActivity(new Intent(LoginActivity.this, MainActivity.class));
             session.setLogged(true);
             finish();
+            Toast.makeText(getApplicationContext(), "歡迎使用 !", Toast.LENGTH_SHORT).show();
         }
         else {
-            Toast.makeText(getApplicationContext(), "Wrong userid / password ", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getApplicationContext(), "帳號或密碼錯誤 !", Toast.LENGTH_SHORT).show();
         }
     }
 }

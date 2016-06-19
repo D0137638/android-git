@@ -21,14 +21,19 @@ import android.widget.Toast;
 public class RecommendActivity extends AppCompatActivity {
 
     DbHelper myDb;
-    EditText ed_BookName;
-    Button btn_AddBook;
     ListView lv_Book;
-    Cursor cursor;
 
     int[] imageIDs = {
-            R.drawable.ic_launcher,
-            R.drawable.ic_person_add_black_24dp
+            R.drawable.a,
+            R.drawable.b,
+            R.drawable.c,
+            R.drawable.d,
+            R.drawable.e,
+            R.drawable.f,
+            R.drawable.g,
+            R.drawable.h,
+            R.drawable.i,
+            R.drawable.j
     };
     int nextImageIndex = 0;
 
@@ -42,40 +47,65 @@ public class RecommendActivity extends AppCompatActivity {
         getSupportActionBar().setHomeButtonEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         myDb = new DbHelper(this);
-        ed_BookName = (EditText)findViewById(R.id.ed_BookName);
-        btn_AddBook = (Button)findViewById(R.id.btn_AddBook);
         lv_Book = (ListView)findViewById(R.id.lv_Book);
         Cursor c = myDb.allBook();
 
+        if(c.getCount()<=0)
+        {
+            int imageId = imageIDs[nextImageIndex];
+            nextImageIndex = (nextImageIndex + 1) % imageIDs.length;
+            myDb.addBook("解憂○貨店", 277 ,imageId);
 
-        btn_AddBook.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                int imageId = imageIDs[nextImageIndex];
-                nextImageIndex = (nextImageIndex + 1) % imageIDs.length;
+            imageId = imageIDs[nextImageIndex];
+            nextImageIndex = (nextImageIndex + 1) % imageIDs.length;
+            myDb.addBook("巴黎○書店", 277 ,imageId);
 
-                myDb.addBook("香蕉", 30 ,imageId);
+            imageId = imageIDs[nextImageIndex];
+            nextImageIndex = (nextImageIndex + 1) % imageIDs.length;
+            myDb.addBook("愛的○化論", 245 ,imageId);
 
-                imageId = imageIDs[nextImageIndex];
-                nextImageIndex = (nextImageIndex + 1) % imageIDs.length;
-                myDb.addBook("西瓜", 30 ,imageId);
-                finish();
-                startActivity(new Intent(RecommendActivity.this,RecommendActivity.class));
-            }
-        });
+            imageId = imageIDs[nextImageIndex];
+            nextImageIndex = (nextImageIndex + 1) % imageIDs.length;
+            myDb.addBook("把你的名○曬一曬", 261 ,imageId);
+
+            imageId = imageIDs[nextImageIndex];
+            nextImageIndex = (nextImageIndex + 1) % imageIDs.length;
+            myDb.addBook("蘭亭○密碼", 308 ,imageId);
+
+            imageId = imageIDs[nextImageIndex];
+            nextImageIndex = (nextImageIndex + 1) % imageIDs.length;
+            myDb.addBook("列車○的女孩", 277 ,imageId);
+
+            imageId = imageIDs[nextImageIndex];
+            nextImageIndex = (nextImageIndex + 1) % imageIDs.length;
+            myDb.addBook("人魚○哭", 190 ,imageId);
+
+            imageId = imageIDs[nextImageIndex];
+            nextImageIndex = (nextImageIndex + 1) % imageIDs.length;
+            myDb.addBook("盛夏○開", 190 ,imageId);
+
+            imageId = imageIDs[nextImageIndex];
+            nextImageIndex = (nextImageIndex + 1) % imageIDs.length;
+            myDb.addBook("○聽", 342 ,imageId);
+
+            imageId = imageIDs[nextImageIndex];
+            nextImageIndex = (nextImageIndex + 1) % imageIDs.length;
+            myDb.addBook("來自天○的雨", 198 ,imageId);
+
+            finish();
+            startActivity(new Intent(RecommendActivity.this, RecommendActivity.class));
+        }
 
 
         lv_Book.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 Intent intent = new Intent(RecommendActivity.this, BookContent.class);
-                intent.putExtra("POS", i);
                 intent.putExtra("ID", l);
                 startActivity(intent);
             }
         });
 
-        //cursor=myDb.allBook();       // 查詢所有資料
         UpdateAdapter(c); // 載入資料表至 ListView 中
     }
 
@@ -84,18 +114,12 @@ public class RecommendActivity extends AppCompatActivity {
             SimpleCursorAdapter adapter = new SimpleCursorAdapter(this,
                     R.layout.lv_booklayout,// 自訂的 mylayout.xml
                     cursor, // 資料庫的 Cursors 物件
-                    new String[] {"_id","name", "price","book_picture" }, // _id、name、price 欄位
-                    new int[] {R.id.txtId,R.id.txtName, R.id.txtPrice ,R.id.imgIcon}, //與 _id、name、price對應的元件
+                    new String[] {"name", "price","book_picture" }, // _id、name、price 欄位
+                    new int[] {R.id.txtName, R.id.txtPrice ,R.id.imgIcon}, //與 _id、name、price對應的元件
                     0); // adapter 行為最佳化
             lv_Book.setAdapter(adapter); // 將adapter增加到listview01中
         }
     }
-
-
-
-
-
-
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {

@@ -13,5 +13,7 @@
     <string name="title_activity_search">搜尋書籍</string>
     <string name="title_activity_favorite">我的最愛</string>
     <string name="title_activity_shopcart">購物車</string>
-    <string name="title_activity_book_content">書籍內容</string>
+    <string name="title_activity_book_content">商品內容</string>
+    <string name="title_activity_favorite_content">商品內容</string>
+    <string name="title_activity_shopcart_content">商品內容</string>
 </resources>
