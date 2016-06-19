@@ -4,6 +4,7 @@ package com.example.user.finalproject;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
+import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
@@ -22,6 +23,8 @@ public class DbHelper extends SQLiteOpenHelper {
     public static final String TABLE_BOOK = "books";
     public static final String COLUMN_BOOK_ID = COLUMN_ID;
     public static final String COLUMN_BOOK_NAME = "name";
+    public static final String COLUMN_BOOK_PRICE = "price";
+    public static final String COLUMN_BOOK_PICTURE = "book_picture";
 
 
 
@@ -32,7 +35,9 @@ public class DbHelper extends SQLiteOpenHelper {
 
     public static final String CREATE_TABLE_BOOKS = "CREATE TABLE " + TABLE_BOOK + "("
             + COLUMN_BOOK_ID + " INTEGER PRIMARY KEY AUTOINCREMENT,"
-            + COLUMN_BOOK_NAME + " TEXT);";
+            + COLUMN_BOOK_NAME + " TEXT,"
+            + COLUMN_BOOK_PRICE + " INTEGER,"
+            + COLUMN_BOOK_PICTURE + " INTEGER);";
 
     public DbHelper(Context context) {
         super(context, DB_NAME, null, DB_VERSION);
@@ -86,10 +91,12 @@ public class DbHelper extends SQLiteOpenHelper {
         return false;
     }
 
-    public boolean addBook(String bookname){
+    public boolean addBook(String bookname, int price ,int book_picture){
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
         contentValues.put(COLUMN_BOOK_NAME, bookname);
+        contentValues.put(COLUMN_BOOK_PRICE, price);
+        contentValues.put(COLUMN_BOOK_PICTURE, book_picture);
 
         long result = db.insert(TABLE_BOOK , null , contentValues);
         if(result == -1)
@@ -102,5 +109,14 @@ public class DbHelper extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getWritableDatabase();
         Cursor c = db.rawQuery("select * from " + TABLE_BOOK, null);
         return c;
+    }
+
+    public Cursor getBook(long rowId) throws SQLException { // 查詢指定 ID 的資料
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor cursor= db.rawQuery("SELECT * FROM " + TABLE_BOOK + " WHERE _id="+rowId,null);
+        if (cursor.getCount()>0)
+            cursor.moveToFirst();
+
+        return cursor;
     }
 }

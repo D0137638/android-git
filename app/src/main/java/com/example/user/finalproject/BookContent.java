@@ -10,12 +10,16 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 public class BookContent extends AppCompatActivity {
 
     DbHelper myDb;
-    TextView tv_BookContent;
+    TextView tv_BookName , tv_BookPrice;
+    ImageView Detail_pictute;
+    Button btn_AddToCart , btn_AddToFavorite;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,14 +31,22 @@ public class BookContent extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         myDb = new DbHelper(this);
-        tv_BookContent = (TextView)findViewById(R.id.tv_BookContent);
+        tv_BookName = (TextView)findViewById(R.id.tv_BookName);
+        tv_BookPrice = (TextView)findViewById(R.id.tv_BookPrice);
+        Detail_pictute = (ImageView)findViewById(R.id.Detail_pictute);
+        btn_AddToCart = (Button)findViewById(R.id.btn_AddToCart);
+        btn_AddToFavorite = (Button)findViewById(R.id.btn_AddToFavorite);
 
         Intent intent = getIntent();
-        final int pos = intent.getExtras().getInt("POSITION");
-        Cursor c = myDb.allBook();
-        c.move(pos);
+        final long pos = intent.getExtras().getLong("ID");
+
+        Cursor c= myDb.getBook(pos);
         String bookname = c.getString(1);
-        tv_BookContent.setText(bookname);
+        int bookproce = c.getInt(2);
+        int bookpicture = c.getInt(3);
+        tv_BookName.setText(bookname);
+        tv_BookPrice.setText(String.valueOf(bookproce));
+        Detail_pictute.setImageResource(bookpicture);
 
     }
 

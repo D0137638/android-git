@@ -15,6 +15,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.SimpleCursorAdapter;
 import android.widget.Toast;
 
 public class RecommendActivity extends AppCompatActivity {
@@ -23,6 +24,13 @@ public class RecommendActivity extends AppCompatActivity {
     EditText ed_BookName;
     Button btn_AddBook;
     ListView lv_Book;
+    Cursor cursor;
+
+    int[] imageIDs = {
+            R.drawable.ic_launcher,
+            R.drawable.ic_person_add_black_24dp
+    };
+    int nextImageIndex = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,48 +46,56 @@ public class RecommendActivity extends AppCompatActivity {
         btn_AddBook = (Button)findViewById(R.id.btn_AddBook);
         lv_Book = (ListView)findViewById(R.id.lv_Book);
         Cursor c = myDb.allBook();
-        if(c.getCount() == 0){
-            Toast.makeText(this, "No data", Toast.LENGTH_SHORT).show();
-            return;
-        }
-
-        c.moveToFirst();
-
-        final String[] title = new String[c.getCount()];
-        int n = 0;
-
-        do{
-            title[n] = c.getString(1).toString();
-            n = n + 1;
-        }while (c.moveToNext());
-
-        final ArrayAdapter listAdapter = new ArrayAdapter<String>(this, R.layout.support_simple_spinner_dropdown_item,title);
-        lv_Book.setAdapter(listAdapter);
 
 
         btn_AddBook.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String bookname = ed_BookName.getText().toString();
-                myDb.addBook(bookname);
-                listAdapter.notifyDataSetChanged();
+                int imageId = imageIDs[nextImageIndex];
+                nextImageIndex = (nextImageIndex + 1) % imageIDs.length;
+
+                myDb.addBook("香蕉", 30 ,imageId);
+
+                imageId = imageIDs[nextImageIndex];
+                nextImageIndex = (nextImageIndex + 1) % imageIDs.length;
+                myDb.addBook("西瓜", 30 ,imageId);
                 finish();
-                startActivity(new Intent(RecommendActivity.this, RecommendActivity.class));
+                startActivity(new Intent(RecommendActivity.this,RecommendActivity.class));
             }
         });
+
 
         lv_Book.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                Intent intent = new Intent();
-                intent.setClass(RecommendActivity.this, BookContent.class);
-                intent.putExtra("POSITION", i + 1);
+                Intent intent = new Intent(RecommendActivity.this, BookContent.class);
+                intent.putExtra("POS", i);
+                intent.putExtra("ID", l);
                 startActivity(intent);
-                //startActivity(new Intent(RecommendActivity.this, BookContent.class));
-                //Toast.makeText(RecommendActivity.this,"123",Toast.LENGTH_SHORT).show();
             }
         });
+
+        //cursor=myDb.allBook();       // 查詢所有資料
+        UpdateAdapter(c); // 載入資料表至 ListView 中
     }
+
+    public void UpdateAdapter(Cursor cursor){
+        if (cursor != null && cursor.getCount() >= 0){
+            SimpleCursorAdapter adapter = new SimpleCursorAdapter(this,
+                    R.layout.lv_booklayout,// 自訂的 mylayout.xml
+                    cursor, // 資料庫的 Cursors 物件
+                    new String[] {"_id","name", "price","book_picture" }, // _id、name、price 欄位
+                    new int[] {R.id.txtId,R.id.txtName, R.id.txtPrice ,R.id.imgIcon}, //與 _id、name、price對應的元件
+                    0); // adapter 行為最佳化
+            lv_Book.setAdapter(adapter); // 將adapter增加到listview01中
+        }
+    }
+
+
+
+
+
+
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
